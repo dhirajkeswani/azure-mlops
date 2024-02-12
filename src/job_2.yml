@@ -1,14 +1,14 @@
 $schema: https://azuremlschemas.azureedge.net/latest/commandJob.schema.json
-code: https://github.com/dhirajkeswani/azure-mlops/src/model
+code: model
 command: >-
-  python train.py
+  python train_2.py
   --training_data ${{inputs.training_data}}
-  --reg_rate ${{inputs.reg_rate}}
+  --n_est ${{inputs.n_est}}
 inputs:
   training_data: 
     type: uri_folder 
     path: azureml:mlops-trial-data-asset:1
-  reg_rate: 0.01
+  n_est: 80
 environment: azureml:AzureML-sklearn-0.24-ubuntu18.04-py37-cpu@latest
 compute: azureml:mlops-trial-compute
 experiment_name: mlops-trial

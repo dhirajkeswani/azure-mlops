@@ -6,7 +6,8 @@ import os
 
 import pandas as pd
 
-from sklearn.linear_model import LogisticRegression
+# from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 import mlflow
 
@@ -24,7 +25,7 @@ def main(args):
     X_train, X_test, y_train, y_test = split_data(df)
 
     # train model
-    train_model(args.reg_rate, X_train, X_test, y_train, y_test)
+    train_model(args.n_est, X_train, X_test, y_train, y_test)
 
 
 def get_csvs_df(path):
@@ -43,9 +44,9 @@ def split_data(df):
     return (X_train, X_test, y_train, y_test)
 
 
-def train_model(reg_rate, X_train, X_test, y_train, y_test):
+def train_model(n_est, X_train, X_test, y_train, y_test):
     # train model
-    LogisticRegression(C=1/reg_rate, solver="liblinear").fit(X_train, y_train)
+    RandomForestClassifier(n_estimators=n_est).fit(X_train, y_train)
 
 
 def parse_args():
@@ -55,8 +56,8 @@ def parse_args():
     # add arguments
     parser.add_argument("--training_data", dest='training_data',
                         type=str)
-    parser.add_argument("--reg_rate", dest='reg_rate',
-                        type=float, default=0.01)
+    parser.add_argument("--n_est", dest='n_est',
+                        type=int, default=100)
 
     # parse args
     args = parser.parse_args()
@@ -67,8 +68,8 @@ def parse_args():
 # run script
 if __name__ == "__main__":
     # add space in logs
-    print("\n\n")
-    print("*" * 60)
+    print("\n")
+    print("=" * 60)
 
     # parse args
     args = parse_args()
@@ -78,4 +79,4 @@ if __name__ == "__main__":
 
     # add space in logs
     print("*" * 60)
-    print("\n\n")
+    print("\n")
